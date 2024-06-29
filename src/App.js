@@ -22,7 +22,7 @@ function App() {
   const [weatherTemp, setWeatherTemp] = useState(''); */
   const [weatherBg, setWeatherBg] = useState('');
   const [weather, setWeather] = useState({});
-  const cities=['paris', 'new york', 'tokyo', 'seoul'];
+  const cities=['paris', 'new york', 'tokyo', 'seoul', 'busan'];
   const [city, setCity] = useState('');
 
   const getCurrentLocation = () => {
@@ -51,20 +51,23 @@ function App() {
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=0d0c8f6ae2cc26ec553dc8ed44eea967&units=metric`
     let response = await fetch(url)
     let data = await response.json();
-
-    if (data.weather[0].main == "Clear") {
+    updateWeatherData(data);
+  } 
+  
+  const updateWeatherData = (data) => {
+    if (data.weather[0].main === "Clear") {
       setWeatherBg(bgSunny)
-    } else if(data.weather[0].main == "Rain") {
+    } else if(data.weather[0].main === "Rain") {
       setWeatherBg(bgRain)
     }
    setWeather(data);
-   console.log("data?" , data)
-  } 
+  }
 
 const getWeatherByCity=async ()=>{
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0d0c8f6ae2cc26ec553dc8ed44eea967&units=metric`
   let response = await fetch(url);
   let data = await response.json();
+  updateWeatherData(data);
   console.log("data?" , data)
  
 }
@@ -80,8 +83,8 @@ const getWeatherByCity=async ()=>{
   return (
     <div className='Main' style={{backgroundImage: `url(${weatherBg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
       <div>
-      <WeatherButton cities={cities} setCity={setCity} />
-      <RecipeReviewCard weather={weather}/>
+      {/* <WeatherButton cities={cities} setCity={setCity} /> */}
+      <RecipeReviewCard weather={weather} cities={cities} setCity={setCity}/>
       </div>
     </div>
   );

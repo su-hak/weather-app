@@ -9,10 +9,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState, useEffect } from 'react';
 import Sunny from '../asset/Sunny.gif';
 import Rain from '../asset/Rain.gif';
+import WeatherButton from './WeatherButton';
 
 const requireGif = require.context('../asset', false, /\.gif$/);
 
-export default function RecipeReviewCard({ weather }) {
+export default function RecipeReviewCard({ weather, cities={cities}, setCity={setCity} }) {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const weatherIcon = weather.weather && weather.weather[0] ? weather.weather[0].main : "No weather data";
   const weatherDescription = weather.weather && weather.weather[0] ? weather.weather[0].description : "No weather data";
@@ -38,9 +39,9 @@ export default function RecipeReviewCard({ weather }) {
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         action={
-          <IconButton aria-label="settings">
+          <WeatherButton aria-label="settings" cities={cities} setCity={setCity}>
             <MoreVertIcon />
-          </IconButton>
+          </WeatherButton>
         }
         title={weather.name}
         subheader={currentDateTime.toLocaleString()}
